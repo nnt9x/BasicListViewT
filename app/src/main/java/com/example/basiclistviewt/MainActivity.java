@@ -6,6 +6,7 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
+import android.widget.EditText;
 import android.widget.ListView;
 import android.widget.Toast;
 
@@ -15,6 +16,8 @@ import java.util.List;
 public class MainActivity extends AppCompatActivity {
 
     private ListView lvDays;
+    private EditText edtInput;
+
     private List<String> dataSource;
     private ArrayAdapter<String> arrayAdapter;
 
@@ -23,15 +26,10 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         lvDays = findViewById(R.id.lvDays);
+        edtInput = findViewById(R.id.edtInput);
         // Them du lieu: thực tế dữ liệu cần lấy ra từ CSDL
         dataSource = new ArrayList<>();
-        dataSource.add("Thứ 2");
-        dataSource.add("Thứ 3");
-        dataSource.add("Thứ 4");
-        dataSource.add("Thứ 5");
-        dataSource.add("Thứ 6");
-        dataSource.add("Thứ 7");
-        dataSource.add("Chủ nhật");
+
         // Adapter
         arrayAdapter = new ArrayAdapter<>(this, android.R.layout.simple_list_item_1, dataSource);
 
@@ -45,6 +43,20 @@ public class MainActivity extends AppCompatActivity {
                         .LENGTH_SHORT).show();
             }
         });
+
+    }
+
+    public void addNew(View view) {
+        String s = edtInput.getText().toString();
+        if(s.isEmpty()){
+            edtInput.setError("Không để trống!");
+            return;
+        }
+        dataSource.add(s);
+        // Khi du lieuj thay doi -> thong bao cho adapter -> render lai listview
+        arrayAdapter.notifyDataSetChanged();
+        edtInput.setText("");
+
 
     }
 }
